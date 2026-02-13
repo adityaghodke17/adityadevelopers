@@ -36,9 +36,6 @@ if (cursorTree && cursorFollower) {
         element.addEventListener('mouseenter', () => {
             cursorTree.classList.add('hover');
             cursorFollower.classList.add('hover');
-            
-            // Create magic spark effect
-            createMagicSpark(e);
         });
         
         element.addEventListener('mouseleave', () => {
@@ -58,9 +55,6 @@ if (cursorTree && cursorFollower) {
                 createFallingLeaf(e.clientX, e.clientY);
             }, i * 100);
         }
-        
-        // Create magic ripple
-        createMagicRipple(e.clientX, e.clientY);
     });
     
     document.addEventListener('mouseup', () => {
@@ -82,27 +76,6 @@ if (cursorTree && cursorFollower) {
     });
 }
 
-// Create magic spark
-function createMagicSpark(e) {
-    if (!e) return;
-    const spark = document.createElement('div');
-    spark.className = 'magic-spark';
-    spark.style.left = e.clientX + 'px';
-    spark.style.top = e.clientY + 'px';
-    spark.style.cssText = `
-        position: fixed;
-        width: 20px;
-        height: 20px;
-        background: radial-gradient(circle, #FFD700, transparent);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 10000;
-        animation: sparkFade 0.5s ease-out forwards;
-    `;
-    document.body.appendChild(spark);
-    setTimeout(() => spark.remove(), 500);
-}
-
 // Create falling leaf
 function createFallingLeaf(x, y) {
     const leaf = document.createElement('div');
@@ -115,41 +88,6 @@ function createFallingLeaf(x, y) {
     document.body.appendChild(leaf);
     setTimeout(() => leaf.remove(), 2000);
 }
-
-// Create magic ripple
-function createMagicRipple(x, y) {
-    const ripple = document.createElement('div');
-    ripple.style.cssText = `
-        position: fixed;
-        left: ${x}px;
-        top: ${y}px;
-        width: 10px;
-        height: 10px;
-        background: radial-gradient(circle, #FFD700, transparent);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        animation: magicRipple 0.8s ease-out forwards;
-        pointer-events: none;
-        z-index: 9999;
-    `;
-    document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 800);
-}
-
-// Add animation styles
-const magicStyles = document.createElement('style');
-magicStyles.textContent = `
-    @keyframes sparkFade {
-        0% { transform: scale(0); opacity: 1; }
-        100% { transform: scale(3); opacity: 0; }
-    }
-    
-    @keyframes magicRipple {
-        0% { transform: scale(0); opacity: 1; }
-        100% { transform: scale(5); opacity: 0; }
-    }
-`;
-document.head.appendChild(magicStyles);
 
 // ===== BOOK CONSULTATION BUTTON FUNCTION =====
 if (bookConsultationBtn) {
@@ -306,6 +244,51 @@ notificationStyles.textContent = `
         }
         to {
             transform: translateX(100px);
+            opacity: 0;
+        }
+    }
+    
+    .falling-leaf {
+        position: fixed;
+        border-radius: 50% 50% 0 50%;
+        pointer-events: none;
+        z-index: 10000;
+        animation: leafFallAnim 2s ease-out forwards;
+        filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
+    }
+    
+    @keyframes leafFallAnim {
+        0% {
+            transform: rotate(0deg) translateY(0) translateX(0);
+            opacity: 1;
+        }
+        50% {
+            transform: rotate(180deg) translateY(100px) translateX(50px);
+            opacity: 0.8;
+        }
+        100% {
+            transform: rotate(360deg) translateY(200px) translateX(-50px);
+            opacity: 0;
+        }
+    }
+    
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(76, 175, 80, 0.5) 0%, transparent 70%);
+        transform: scale(0);
+        animation: rippleEffect 0.8s ease-out;
+        pointer-events: none;
+        z-index: 9997;
+    }
+    
+    @keyframes rippleEffect {
+        0% {
+            transform: scale(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(4);
             opacity: 0;
         }
     }
