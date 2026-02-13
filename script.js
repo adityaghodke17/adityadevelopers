@@ -175,7 +175,7 @@ if (contactForm) {
         
         // Animation on button
         const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing...';
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         submitBtn.disabled = true;
         
         // Create WhatsApp message
@@ -184,48 +184,39 @@ if (contactForm) {
                                `*Email:* ${email}%0A` +
                                `*Phone:* ${phone}%0A` +
                                `*Service Required:* ${service}%0A` +
-                               `*Property Requirements:*%0A${message}%0A%0A` +
+                               `*Requirements:*%0A${message}%0A%0A` +
                                `_Sent from Aditya Developers website_`;
         
         // WhatsApp URL
         const whatsappURL = `https://wa.me/916357308369?text=${whatsappMessage}`;
         
-        // Simulate processing
+        // Open WhatsApp directly
+        window.open(whatsappURL, '_blank');
+        
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Show success message
+        showSuccessMessage();
+        
+        // Reset form after 2 seconds
         setTimeout(() => {
-            // Reset button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            
-            // Open WhatsApp in new tab
-            window.open(whatsappURL, '_blank');
-            
-            // Show success message
-            showSuccessMessage(name, phone, service);
-            
-            // Reset form after 2 seconds
-            setTimeout(() => {
-                contactForm.reset();
-            }, 2000);
-            
-        }, 1000);
+            contactForm.reset();
+        }, 2000);
     });
 }
 
 // Show success message
-function showSuccessMessage(name, phone, service) {
+function showSuccessMessage() {
     const successHTML = `
         <div class="success-message">
             <div class="success-icon">
                 <i class="fab fa-whatsapp"></i>
             </div>
-            <h3>Message Ready!</h3>
-            <p>Your query has been prepared for WhatsApp.</p>
-            <div class="success-info">
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Phone:</strong> ${phone}</p>
-                <p><strong>Service:</strong> ${service}</p>
-            </div>
-            <p class="success-note">WhatsApp will open automatically. If it doesn't, please click the WhatsApp button.</p>
+            <h3>WhatsApp Opened!</h3>
+            <p>Your message has been prepared. Please send it from WhatsApp.</p>
+            <p class="success-note">If WhatsApp doesn't open automatically, click the WhatsApp button again.</p>
         </div>
     `;
     
@@ -251,7 +242,7 @@ function showSuccessMessage(name, phone, service) {
     
     document.body.appendChild(successDiv);
     
-    // Auto close after 5 seconds
+    // Auto close after 3 seconds
     setTimeout(() => {
         successDiv.style.animation = 'fadeOut 0.3s';
         setTimeout(() => {
@@ -259,7 +250,7 @@ function showSuccessMessage(name, phone, service) {
                 successDiv.remove();
             }
         }, 300);
-    }, 5000);
+    }, 3000);
     
     // Click to close
     successDiv.addEventListener('click', (e) => {
@@ -270,8 +261,25 @@ function showSuccessMessage(name, phone, service) {
     });
 }
 
-// Copy phone number
+// Copy email
 document.querySelectorAll('.contact-item').forEach(item => {
+    if (item.querySelector('h4')?.textContent.includes('Email')) {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', function() {
+            const email = this.querySelector('p').textContent.trim();
+            navigator.clipboard.writeText(email).then(() => {
+                const originalHTML = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> <div><h4>Copied!</h4><p>Email copied to clipboard</p></div>';
+                this.style.background = 'linear-gradient(135deg, #4caf50, #2e7d32)';
+                
+                setTimeout(() => {
+                    this.innerHTML = originalHTML;
+                    this.style.background = '';
+                }, 2000);
+            });
+        });
+    }
+    
     if (item.querySelector('h4')?.textContent.includes('Phone')) {
         item.style.cursor = 'pointer';
         item.addEventListener('click', function() {
@@ -374,19 +382,6 @@ successStyles.textContent = `
         color: #666;
         margin-bottom: 20px;
         line-height: 1.6;
-    }
-    
-    .success-info {
-        background: #f9f9f9;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 25px 0;
-        text-align: left;
-    }
-    
-    .success-info p {
-        margin: 10px 0;
-        color: #333;
     }
     
     .success-note {
