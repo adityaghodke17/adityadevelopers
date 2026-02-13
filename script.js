@@ -6,6 +6,7 @@ const backToTop = document.getElementById('backToTop');
 const bookBtn = document.getElementById('bookConsultationBtn');
 const callBtn = document.getElementById('callNowBtn');
 const contactForm = document.getElementById('contactForm');
+const navbar = document.getElementById('navbar');
 
 // Mobile Menu Toggle
 if (menuToggle && navMenu) {
@@ -24,8 +25,15 @@ if (menuToggle && navMenu) {
     });
 }
 
-// Back to Top Button
+// Navbar Scroll Effect
 window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+    
+    // Back to Top Button
     if (window.scrollY > 500) {
         backToTop.classList.add('visible');
     } else {
@@ -33,18 +41,57 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// Counter Animation
+const counters = document.querySelectorAll('.counter');
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const counter = entry.target;
+            const target = parseInt(counter.getAttribute('data-target'));
+            let count = 0;
+            
+            const updateCounter = () => {
+                const increment = target / 50;
+                if (count < target) {
+                    count += increment;
+                    counter.innerText = Math.ceil(count) + (target === 100 ? '+' : '');
+                    setTimeout(updateCounter, 40);
+                } else {
+                    counter.innerText = target + (target === 100 ? '+' : '');
+                }
+            };
+            
+            updateCounter();
+            counterObserver.unobserve(counter);
+        }
+    });
+}, { threshold: 0.5 });
+
+counters.forEach(counter => counterObserver.observe(counter));
+
 // Book Consultation Button
 if (bookBtn) {
     bookBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        const message = "Hello Aditya Developers, I would like to book a consultation for property services.";
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => this.style.transform = 'scale(1)', 200);
+        
+        const message = "Hello Aditya Developers, I would like to book a consultation for property services. Please provide details about Property Sell/Buy, N.A. Work, and Site Visit.";
         const url = `https://wa.me/916357308369?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
+        
+        setTimeout(() => {
+            window.open(url, '_blank');
+        }, 300);
     });
 }
 
 // Call Now Button
-// No extra code needed - href="tel:" works
+if (callBtn) {
+    callBtn.addEventListener('click', function(e) {
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => this.style.transform = 'scale(1)', 200);
+    });
+}
 
 // Contact Form
 if (contactForm) {
@@ -62,21 +109,30 @@ if (contactForm) {
             return;
         }
         
-        const whatsappMessage = `*New Query*\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nService: ${service}\nMessage: ${message}`;
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        
+        const whatsappMessage = `*🏠 New Property Query*\n\n*Name:* ${name}\n*Email:* ${email}\n*Phone:* ${phone}\n*Service:* ${service}\n*Message:* ${message}`;
         const url = `https://wa.me/916357308369?text=${encodeURIComponent(whatsappMessage)}`;
-        window.open(url, '_blank');
-        contactForm.reset();
+        
+        setTimeout(() => {
+            window.open(url, '_blank');
+            submitBtn.innerHTML = originalText;
+            contactForm.reset();
+        }, 1000);
     });
 }
 
 // Active nav link on scroll
 window.addEventListener('scroll', () => {
     let current = '';
-    const sections = document.querySelectorAll('section');
+    const sections = document.querySelectorAll('section[id]');
     
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
-        if (window.scrollY >= sectionTop - 200) {
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= sectionTop - 200 && window.scrollY < sectionTop + sectionHeight - 200) {
             current = section.getAttribute('id');
         }
     });
@@ -87,4 +143,22 @@ window.addEventListener('scroll', () => {
             link.classList.add('active');
         }
     });
+});
+
+// Smooth reveal animation
+const revealElements = document.querySelectorAll('.service-card, .about-card, .stat-box, .info-item');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+revealElements.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'all 0.8s ease';
+    revealObserver.observe(el);
 });
