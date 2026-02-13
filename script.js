@@ -10,14 +10,14 @@ const backToTop = document.getElementById('backToTop');
 const navLinks = document.querySelectorAll('.nav-link');
 
 // Custom Cursor Elements
-const cursor = document.querySelector('.cursor');
+const cursorTree = document.querySelector('.cursor-tree');
 const cursorFollower = document.querySelector('.cursor-follower');
 
-// Custom Cursor Logic
-if (cursor && cursorFollower) {
+// Custom Cursor Logic - Tree Shape
+if (cursorTree && cursorFollower) {
     document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+        cursorTree.style.left = e.clientX + 'px';
+        cursorTree.style.top = e.clientY + 'px';
         
         setTimeout(() => {
             cursorFollower.style.left = e.clientX + 'px';
@@ -30,31 +30,50 @@ if (cursor && cursorFollower) {
     
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
-            cursor.classList.add('hover');
+            cursorTree.classList.add('hover');
             cursorFollower.classList.add('hover');
         });
         
         element.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hover');
+            cursorTree.classList.remove('hover');
             cursorFollower.classList.remove('hover');
         });
     });
     
-    // Click effect
+    // Click effect with tree animation
     document.addEventListener('mousedown', () => {
-        cursor.classList.add('click');
+        cursorTree.classList.add('click');
+        cursorFollower.classList.add('click');
+        
+        // Add falling leaves effect
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                const leaf = document.createElement('div');
+                leaf.classList.add('tree-leaf-fall');
+                leaf.style.left = (e?.clientX || 0) + 'px';
+                leaf.style.top = (e?.clientY || 0) + 'px';
+                leaf.style.background = ['#2E7D32', '#4CAF50', '#66BB6A'][Math.floor(Math.random() * 3)];
+                leaf.style.width = Math.random() * 10 + 8 + 'px';
+                leaf.style.height = leaf.style.width;
+                document.body.appendChild(leaf);
+                
+                setTimeout(() => leaf.remove(), 1000);
+            }, i * 100);
+        }
     });
     
     document.addEventListener('mouseup', () => {
-        cursor.classList.remove('click');
+        cursorTree.classList.remove('click');
+        cursorFollower.classList.remove('click');
     });
     
-    // Ripple effect on click
+    // Ripple effect on click (tree rings)
     document.addEventListener('click', (e) => {
         const ripple = document.createElement('div');
         ripple.classList.add('ripple');
         ripple.style.left = e.clientX + 'px';
         ripple.style.top = e.clientY + 'px';
+        ripple.style.background = 'rgba(76, 175, 80, 0.3)';
         document.body.appendChild(ripple);
         
         setTimeout(() => {
@@ -62,22 +81,63 @@ if (cursor && cursorFollower) {
         }, 600);
     });
     
-    // Particle effect
+    // Particle effect (falling leaves)
     const particlesContainer = document.querySelector('.particles');
     if (particlesContainer) {
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 20; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            particle.style.width = Math.random() * 5 + 2 + 'px';
+            particle.style.width = Math.random() * 8 + 4 + 'px';
             particle.style.height = particle.style.width;
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.opacity = Math.random() * 0.5 + 0.2;
+            particle.style.top = '-10%';
+            particle.style.background = ['#2E7D32', '#4CAF50', '#66BB6A', '#8BC34A'][Math.floor(Math.random() * 4)];
+            particle.style.borderRadius = '50% 50% 0 50%';
+            particle.style.animation = `fall ${Math.random() * 10 + 10}s linear infinite`;
+            particle.style.animationDelay = Math.random() * 5 + 's';
             particlesContainer.appendChild(particle);
         }
     }
 }
+
+// Add falling leaf animation style
+const leafStyle = document.createElement('style');
+leafStyle.textContent = `
+    .tree-leaf-fall {
+        position: fixed;
+        border-radius: 50% 50% 0 50%;
+        pointer-events: none;
+        z-index: 10000;
+        animation: leafFallAnim 1s ease-out forwards;
+    }
+    
+    @keyframes leafFallAnim {
+        0% {
+            transform: rotate(0deg) translateY(0);
+            opacity: 1;
+        }
+        50% {
+            transform: rotate(180deg) translateY(50px) translateX(20px);
+            opacity: 0.8;
+        }
+        100% {
+            transform: rotate(360deg) translateY(100px) translateX(-20px);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes fall {
+        0% {
+            transform: translateY(-10vh) rotate(0deg);
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateY(110vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(leafStyle);
 
 // Mobile Menu Toggle
 if (menuToggle && navMenu) {
@@ -261,7 +321,7 @@ function showSuccessMessage() {
     });
 }
 
-// Copy email
+// Copy email and phone
 document.querySelectorAll('.contact-item').forEach(item => {
     if (item.querySelector('h4')?.textContent.includes('Email')) {
         item.style.cursor = 'pointer';
@@ -315,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check if on mobile and hide custom cursor
     if (window.innerWidth <= 768) {
-        if (cursor) cursor.style.display = 'none';
+        if (cursorTree) cursorTree.style.display = 'none';
         if (cursorFollower) cursorFollower.style.display = 'none';
     }
 });
