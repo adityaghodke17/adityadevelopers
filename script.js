@@ -1,4 +1,4 @@
-// Main JavaScript File - WhatsApp Form Integration
+// Main JavaScript File
 
 // DOM Elements
 const contactForm = document.getElementById('contactForm');
@@ -8,30 +8,37 @@ const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.querySelector('.nav-menu');
 const backToTop = document.getElementById('backToTop');
 const navLinks = document.querySelectorAll('.nav-link');
+const bookConsultationBtn = document.getElementById('bookConsultationBtn');
+const callNowBtn = document.getElementById('callNowBtn');
 
 // Custom Cursor Elements
 const cursorTree = document.querySelector('.cursor-tree');
 const cursorFollower = document.querySelector('.cursor-follower');
 
-// Custom Cursor Logic - Tree Shape
+// ===== ENHANCED MAGIC TREE CURSOR =====
 if (cursorTree && cursorFollower) {
+    // Mouse move tracking
     document.addEventListener('mousemove', (e) => {
         cursorTree.style.left = e.clientX + 'px';
         cursorTree.style.top = e.clientY + 'px';
         
+        // Follower with slight delay
         setTimeout(() => {
             cursorFollower.style.left = e.clientX + 'px';
             cursorFollower.style.top = e.clientY + 'px';
-        }, 100);
+        }, 50);
     });
     
     // Hover effects for interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .btn, .nav-link, input, select, textarea, .service-card, .feature-card, .stat-box');
+    const interactiveElements = document.querySelectorAll('a, button, .btn, .nav-link, input, select, textarea, .service-card, .feature-card, .stat-box, .social-link, .contact-item');
     
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
             cursorTree.classList.add('hover');
             cursorFollower.classList.add('hover');
+            
+            // Create magic spark effect
+            createMagicSpark(e);
         });
         
         element.addEventListener('mouseleave', () => {
@@ -40,26 +47,20 @@ if (cursorTree && cursorFollower) {
         });
     });
     
-    // Click effect with tree animation
-    document.addEventListener('mousedown', () => {
+    // Click effects with magic
+    document.addEventListener('mousedown', (e) => {
         cursorTree.classList.add('click');
         cursorFollower.classList.add('click');
         
-        // Add falling leaves effect
-        for (let i = 0; i < 3; i++) {
+        // Create falling leaves
+        for (let i = 0; i < 5; i++) {
             setTimeout(() => {
-                const leaf = document.createElement('div');
-                leaf.classList.add('tree-leaf-fall');
-                leaf.style.left = (e?.clientX || 0) + 'px';
-                leaf.style.top = (e?.clientY || 0) + 'px';
-                leaf.style.background = ['#2E7D32', '#4CAF50', '#66BB6A'][Math.floor(Math.random() * 3)];
-                leaf.style.width = Math.random() * 10 + 8 + 'px';
-                leaf.style.height = leaf.style.width;
-                document.body.appendChild(leaf);
-                
-                setTimeout(() => leaf.remove(), 1000);
+                createFallingLeaf(e.clientX, e.clientY);
             }, i * 100);
         }
+        
+        // Create magic ripple
+        createMagicRipple(e.clientX, e.clientY);
     });
     
     document.addEventListener('mouseup', () => {
@@ -67,77 +68,249 @@ if (cursorTree && cursorFollower) {
         cursorFollower.classList.remove('click');
     });
     
-    // Ripple effect on click (tree rings)
+    // Ripple effect on click
     document.addEventListener('click', (e) => {
         const ripple = document.createElement('div');
         ripple.classList.add('ripple');
         ripple.style.left = e.clientX + 'px';
         ripple.style.top = e.clientY + 'px';
-        ripple.style.background = 'rgba(76, 175, 80, 0.3)';
         document.body.appendChild(ripple);
         
         setTimeout(() => {
             ripple.remove();
-        }, 600);
+        }, 800);
     });
-    
-    // Particle effect (falling leaves)
-    const particlesContainer = document.querySelector('.particles');
-    if (particlesContainer) {
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.width = Math.random() * 8 + 4 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = '-10%';
-            particle.style.background = ['#2E7D32', '#4CAF50', '#66BB6A', '#8BC34A'][Math.floor(Math.random() * 4)];
-            particle.style.borderRadius = '50% 50% 0 50%';
-            particle.style.animation = `fall ${Math.random() * 10 + 10}s linear infinite`;
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            particlesContainer.appendChild(particle);
-        }
-    }
 }
 
-// Add falling leaf animation style
-const leafStyle = document.createElement('style');
-leafStyle.textContent = `
-    .tree-leaf-fall {
+// Create magic spark
+function createMagicSpark(e) {
+    if (!e) return;
+    const spark = document.createElement('div');
+    spark.className = 'magic-spark';
+    spark.style.left = e.clientX + 'px';
+    spark.style.top = e.clientY + 'px';
+    spark.style.cssText = `
         position: fixed;
-        border-radius: 50% 50% 0 50%;
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(circle, #FFD700, transparent);
+        border-radius: 50%;
         pointer-events: none;
         z-index: 10000;
-        animation: leafFallAnim 1s ease-out forwards;
+        animation: sparkFade 0.5s ease-out forwards;
+    `;
+    document.body.appendChild(spark);
+    setTimeout(() => spark.remove(), 500);
+}
+
+// Create falling leaf
+function createFallingLeaf(x, y) {
+    const leaf = document.createElement('div');
+    leaf.className = 'falling-leaf';
+    leaf.style.left = x + 'px';
+    leaf.style.top = y + 'px';
+    leaf.style.background = `linear-gradient(135deg, ${['#2E7D32', '#4CAF50', '#66BB6A', '#8BC34A'][Math.floor(Math.random() * 4)]})`;
+    leaf.style.width = Math.random() * 15 + 10 + 'px';
+    leaf.style.height = leaf.style.width;
+    document.body.appendChild(leaf);
+    setTimeout(() => leaf.remove(), 2000);
+}
+
+// Create magic ripple
+function createMagicRipple(x, y) {
+    const ripple = document.createElement('div');
+    ripple.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        width: 10px;
+        height: 10px;
+        background: radial-gradient(circle, #FFD700, transparent);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: magicRipple 0.8s ease-out forwards;
+        pointer-events: none;
+        z-index: 9999;
+    `;
+    document.body.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 800);
+}
+
+// Add animation styles
+const magicStyles = document.createElement('style');
+magicStyles.textContent = `
+    @keyframes sparkFade {
+        0% { transform: scale(0); opacity: 1; }
+        100% { transform: scale(3); opacity: 0; }
     }
     
-    @keyframes leafFallAnim {
-        0% {
-            transform: rotate(0deg) translateY(0);
-            opacity: 1;
+    @keyframes magicRipple {
+        0% { transform: scale(0); opacity: 1; }
+        100% { transform: scale(5); opacity: 0; }
+    }
+`;
+document.head.appendChild(magicStyles);
+
+// ===== BOOK CONSULTATION BUTTON FUNCTION =====
+if (bookConsultationBtn) {
+    bookConsultationBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Button animation
+        const originalText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
+        this.style.pointerEvents = 'none';
+        
+        // Pre-filled consultation message
+        const consultationMessage = `🏠 *BOOK CONSULTATION* 🏠%0A%0A` +
+                                   `Hello Aditya Developers,%0A%0A` +
+                                   `I would like to book a consultation for property services.%0A%0A` +
+                                   `Please provide details about:%0A` +
+                                   `📍 Property Sell/Buy%0A` +
+                                   `📍 N.A. Work%0A` +
+                                   `📍 Site Visit%0A%0A` +
+                                   `_Sent from website_`;
+        
+        const whatsappURL = `https://wa.me/916357308369?text=${consultationMessage}`;
+        
+        // Open WhatsApp after short delay
+        setTimeout(() => {
+            window.open(whatsappURL, '_blank');
+            this.innerHTML = originalText;
+            this.style.pointerEvents = 'auto';
+            
+            // Show success notification
+            showNotification('✅ WhatsApp opened for consultation!', 'success');
+        }, 800);
+    });
+}
+
+// ===== CALL NOW BUTTON FUNCTION =====
+if (callNowBtn) {
+    callNowBtn.addEventListener('click', function(e) {
+        // Don't prevent default - let the tel: link work
+        // Just add a nice notification
+        showNotification('📞 Calling Aditya Developers...', 'info');
+    });
+}
+
+// ===== FORM SUBMIT FUNCTION =====
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const service = document.getElementById('service').value;
+        const message = document.getElementById('message').value.trim();
+        
+        // Validation
+        if (!name || !email || !phone || !service || !message) {
+            showNotification('❌ Please fill all required fields!', 'error');
+            return;
         }
-        50% {
-            transform: rotate(180deg) translateY(50px) translateX(20px);
-            opacity: 0.8;
-        }
-        100% {
-            transform: rotate(360deg) translateY(100px) translateX(-20px);
+        
+        // Animation on button
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        // Create WhatsApp message for consultation
+        const whatsappMessage = `🏠 *NEW CONSULTATION REQUEST* 🏠%0A%0A` +
+                               `*Name:* ${name}%0A` +
+                               `*Email:* ${email}%0A` +
+                               `*Phone:* ${phone}%0A` +
+                               `*Service Required:* ${service}%0A` +
+                               `*Requirements:*%0A${message}%0A%0A` +
+                               `_Sent from Aditya Developers website_`;
+        
+        // WhatsApp URL
+        const whatsappURL = `https://wa.me/916357308369?text=${whatsappMessage}`;
+        
+        // Open WhatsApp directly
+        window.open(whatsappURL, '_blank');
+        
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Show success message
+        showNotification('✅ WhatsApp opened with your details!', 'success');
+        
+        // Reset form after 2 seconds
+        setTimeout(() => {
+            contactForm.reset();
+        }, 2000);
+    });
+}
+
+// ===== NOTIFICATION FUNCTION =====
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    
+    // Colors based on type
+    let bgColor = '#4CAF50';
+    if (type === 'error') bgColor = '#f44336';
+    if (type === 'info') bgColor = '#2196F3';
+    if (type === 'success') bgColor = '#4CAF50';
+    
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 120px;
+        right: 30px;
+        background: ${bgColor};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 50px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        z-index: 10001;
+        animation: slideInRight 0.3s, fadeOut 0.3s 2.7s;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+    `;
+    
+    notification.innerHTML = message;
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Add notification animations
+const notificationStyles = document.createElement('style');
+notificationStyles.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100px);
             opacity: 0;
         }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
     
-    @keyframes fall {
-        0% {
-            transform: translateY(-10vh) rotate(0deg);
-            opacity: 0.8;
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
         }
-        100% {
-            transform: translateY(110vh) rotate(720deg);
+        to {
+            transform: translateX(100px);
             opacity: 0;
         }
     }
 `;
-document.head.appendChild(leafStyle);
+document.head.appendChild(notificationStyles);
 
 // Mobile Menu Toggle
 if (menuToggle && navMenu) {
@@ -215,112 +388,6 @@ const progressObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.5 });
 
-// WhatsApp Form Integration
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const service = document.getElementById('service').value;
-        const message = document.getElementById('message').value.trim();
-        
-        // Validation
-        if (!name || !email || !phone || !service || !message) {
-            alert('Please fill all required fields!');
-            return;
-        }
-        
-        // Animation on button
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        submitBtn.disabled = true;
-        
-        // Create WhatsApp message
-        const whatsappMessage = `🚀 *NEW PROPERTY QUERY* 🚀%0A%0A` +
-                               `*Name:* ${name}%0A` +
-                               `*Email:* ${email}%0A` +
-                               `*Phone:* ${phone}%0A` +
-                               `*Service Required:* ${service}%0A` +
-                               `*Requirements:*%0A${message}%0A%0A` +
-                               `_Sent from Aditya Developers website_`;
-        
-        // WhatsApp URL
-        const whatsappURL = `https://wa.me/916357308369?text=${whatsappMessage}`;
-        
-        // Open WhatsApp directly
-        window.open(whatsappURL, '_blank');
-        
-        // Reset button
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        
-        // Show success message
-        showSuccessMessage();
-        
-        // Reset form after 2 seconds
-        setTimeout(() => {
-            contactForm.reset();
-        }, 2000);
-    });
-}
-
-// Show success message
-function showSuccessMessage() {
-    const successHTML = `
-        <div class="success-message">
-            <div class="success-icon">
-                <i class="fab fa-whatsapp"></i>
-            </div>
-            <h3>WhatsApp Opened!</h3>
-            <p>Your message has been prepared. Please send it from WhatsApp.</p>
-            <p class="success-note">If WhatsApp doesn't open automatically, click the WhatsApp button again.</p>
-        </div>
-    `;
-    
-    const successDiv = document.createElement('div');
-    successDiv.className = 'success-overlay';
-    successDiv.innerHTML = successHTML;
-    
-    // Add styles
-    successDiv.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        animation: fadeIn 0.3s;
-        padding: 20px;
-    `;
-    
-    document.body.appendChild(successDiv);
-    
-    // Auto close after 3 seconds
-    setTimeout(() => {
-        successDiv.style.animation = 'fadeOut 0.3s';
-        setTimeout(() => {
-            if (successDiv.parentElement) {
-                successDiv.remove();
-            }
-        }, 300);
-    }, 3000);
-    
-    // Click to close
-    successDiv.addEventListener('click', (e) => {
-        if (e.target === successDiv) {
-            successDiv.style.animation = 'fadeOut 0.3s';
-            setTimeout(() => successDiv.remove(), 300);
-        }
-    });
-}
-
 // Copy email and phone
 document.querySelectorAll('.contact-item').forEach(item => {
     if (item.querySelector('h4')?.textContent.includes('Email')) {
@@ -358,6 +425,24 @@ document.querySelectorAll('.contact-item').forEach(item => {
     }
 });
 
+// Particle effect (falling leaves background)
+const particlesContainer = document.querySelector('.particles');
+if (particlesContainer) {
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.width = Math.random() * 8 + 4 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = '-10%';
+        particle.style.background = ['#2E7D32', '#4CAF50', '#66BB6A', '#8BC34A'][Math.floor(Math.random() * 4)];
+        particle.style.borderRadius = '50% 50% 0 50%';
+        particle.style.animation = `floatAround ${Math.random() * 15 + 15}s linear infinite`;
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     document.body.classList.add('loaded');
@@ -389,65 +474,3 @@ window.addEventListener('scroll', () => {
 // Initialize
 updateActiveNavLink();
 updateBackToTop();
-
-// Add CSS for success message
-const successStyles = document.createElement('style');
-successStyles.textContent = `
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-    
-    .success-message {
-        background: white;
-        border-radius: 20px;
-        padding: 40px;
-        text-align: center;
-        max-width: 500px;
-        width: 100%;
-        animation: slideUp 0.4s;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    
-    @keyframes slideUp {
-        from { transform: translateY(50px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-    
-    .success-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, #25D366, #128C7E);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 25px;
-        color: white;
-        font-size: 2.5rem;
-    }
-    
-    .success-message h3 {
-        color: #1a237e;
-        margin-bottom: 15px;
-        font-size: 1.8rem;
-    }
-    
-    .success-message p {
-        color: #666;
-        margin-bottom: 20px;
-        line-height: 1.6;
-    }
-    
-    .success-note {
-        font-size: 0.9rem;
-        color: #666;
-        font-style: italic;
-    }
-`;
-document.head.appendChild(successStyles);
