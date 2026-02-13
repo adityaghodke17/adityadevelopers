@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Floating WhatsApp Button -->
+    <!-- Floating WhatsApp Button with Pulse -->
     <a href="https://wa.me/916357308369" class="floating-whatsapp" target="_blank">
         <i class="fab fa-whatsapp"></i>
+        <span class="pulse-ring"></span>
     </a>
 
-    <!-- Navigation -->
-    <nav class="navbar">
+    <!-- Navigation with Glass Effect -->
+    <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-content">
                 <a href="#home" class="logo">
@@ -23,6 +24,7 @@
                     </div>
                     <div class="logo-text">
                         <span class="logo-main">Aditya Developers</span>
+                        <span class="logo-sub">Your Trusted Partner</span>
                     </div>
                 </a>
                 
@@ -44,65 +46,90 @@
     </nav>
 
     <div class="container">
-        <!-- Main Header -->
-        <header class="main-header" id="home">
-            <h1>Aditya Developers</h1>
-            <p><i class="fas fa-home"></i> Property Sell/Buy &nbsp;&nbsp; 
-            <i class="fas fa-file-signature"></i> N.A. Work &nbsp;&nbsp; 
-            <i class="fas fa-map-marked-alt"></i> Site Visit<br>
-            <i class="fas fa-handshake"></i> Comprehensive Real Estate Solutions</p>
+        <!-- Hero Section with Parallax -->
+        <section class="hero-section" id="home">
+            <div class="hero-bg">
+                <div class="gradient-sphere"></div>
+                <div class="floating-shape shape1"></div>
+                <div class="floating-shape shape2"></div>
+            </div>
             
-            <div class="stats-container">
-                <div class="stat-box">
-                    <span class="stat-number">50</span>
-                    <span class="stat-label">Projects Done</span>
+            <div class="hero-content">
+                <div class="badge">
+                    <i class="fas fa-star"></i> Welcome to Aditya Developers
                 </div>
-                <div class="stat-box">
-                    <span class="stat-number">100+</span>
-                    <span class="stat-label">Happy Clients</span>
+                
+                <h1 class="fade-in-up">Building Dreams,<br>Creating Legacies</h1>
+                
+                <div class="service-highlights">
+                    <span class="highlight-tag"><i class="fas fa-home"></i> Property Sell/Buy</span>
+                    <span class="highlight-tag"><i class="fas fa-file-signature"></i> N.A. Work</span>
+                    <span class="highlight-tag"><i class="fas fa-map-marked-alt"></i> Site Visit</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-number">10+</span>
-                    <span class="stat-label">Years Experience</span>
+                
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <span class="stat-number counter" data-target="50">0</span>
+                        <span class="stat-label">Projects Done</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number counter" data-target="100">0</span>
+                        <span class="stat-label">Happy Clients</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number counter" data-target="10">0</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary" id="bookConsultationBtn">
+                        <i class="fab fa-whatsapp"></i> Book Consultation
+                        <span class="btn-shine"></span>
+                    </a>
+                    <a href="tel:+916357308369" class="btn btn-outline" id="callNowBtn">
+                        <i class="fas fa-phone-alt"></i> Call Now
+                    </a>
                 </div>
             </div>
             
-            <div class="cta-buttons">
-                <a href="#" class="btn btn-primary" id="bookConsultationBtn">
-                    <i class="fab fa-whatsapp"></i> Book Consultation
-                </a>
-                <a href="tel:+916357308369" class="btn btn-secondary" id="callNowBtn">
-                    <i class="fas fa-phone-alt"></i> Call Now
-                </a>
+            <div class="scroll-indicator">
+                <span>Scroll Down</span>
+                <i class="fas fa-chevron-down"></i>
             </div>
-        </header>
+        </section>
 
         <!-- About Section -->
         <section class="about-section" id="about">
             <div class="section-header">
-                <h2>About Us</h2>
-                <p>Your trusted partner in property and land dealings</p>
+                <span class="section-subtitle">Who We Are</span>
+                <h2 class="section-title">Your Trusted Property Partner</h2>
+                <p class="section-description">With over a decade of experience in real estate</p>
             </div>
             
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Welcome to Aditya Developers</h3>
-                    <p>With over 10 years of experience in the real estate industry, we have successfully helped hundreds of clients find their dream properties and navigate complex land transactions.</p>
-                    <p>Our team of experts specializes in property sell/buy, N.A. work, site visits, and comprehensive real estate solutions. We pride ourselves on transparency, integrity, and customer satisfaction.</p>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Trusted Since 2016</h3>
+                    <p>Building relationships through transparency and integrity</p>
                 </div>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-smile"></i>
-                        <span>100+ Happy Clients</span>
+                
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-item">
-                        <i class="fas fa-building"></i>
-                        <span>50+ Projects</span>
+                    <h3>100+ Happy Clients</h3>
+                    <p>Satisfied customers across Gujarat</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-icon">
+                        <i class="fas fa-award"></i>
                     </div>
-                    <div class="stat-item">
-                        <i class="fas fa-clock"></i>
-                        <span>10+ Years Experience</span>
-                    </div>
+                    <h3>10+ Years Excellence</h3>
+                    <p>Award-winning property solutions</p>
                 </div>
             </div>
         </section>
@@ -110,18 +137,19 @@
         <!-- Services Section -->
         <section class="services-section" id="services">
             <div class="section-header">
-                <h2>Our Services</h2>
-                <p>Comprehensive solutions for all your property needs</p>
+                <span class="section-subtitle">What We Offer</span>
+                <h2 class="section-title">Our Premium Services</h2>
+                <p class="section-description">Comprehensive solutions for all your property needs</p>
             </div>
             
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">
+                    <div class="service-icon-wrapper">
                         <i class="fas fa-home"></i>
                     </div>
                     <h3>Property Sell/Buy</h3>
-                    <p>Complete assistance for property buying and selling with verified listings and legal documentation.</p>
-                    <ul class="service-features">
+                    <p>Expert assistance in property transactions with complete legal support</p>
+                    <ul class="service-list">
                         <li><i class="fas fa-check-circle"></i> Residential Properties</li>
                         <li><i class="fas fa-check-circle"></i> Commercial Properties</li>
                         <li><i class="fas fa-check-circle"></i> Agricultural Land</li>
@@ -129,13 +157,14 @@
                     </ul>
                 </div>
                 
-                <div class="service-card">
-                    <div class="service-icon">
+                <div class="service-card featured">
+                    <div class="featured-badge">Popular</div>
+                    <div class="service-icon-wrapper">
                         <i class="fas fa-file-signature"></i>
                     </div>
                     <h3>N.A. Work</h3>
-                    <p>Expert assistance for Non-Agricultural conversion and all related documentation.</p>
-                    <ul class="service-features">
+                    <p>Complete assistance for Non-Agricultural conversion</p>
+                    <ul class="service-list">
                         <li><i class="fas fa-check-circle"></i> NA Conversion</li>
                         <li><i class="fas fa-check-circle"></i> Land Use Change</li>
                         <li><i class="fas fa-check-circle"></i> Documentation</li>
@@ -144,12 +173,12 @@
                 </div>
                 
                 <div class="service-card">
-                    <div class="service-icon">
+                    <div class="service-icon-wrapper">
                         <i class="fas fa-map-marked-alt"></i>
                     </div>
                     <h3>Site Visit</h3>
-                    <p>Professional site visits with detailed analysis and expert guidance.</p>
-                    <ul class="service-features">
+                    <p>Professional site visits with detailed analysis</p>
+                    <ul class="service-list">
                         <li><i class="fas fa-check-circle"></i> Site Inspection</li>
                         <li><i class="fas fa-check-circle"></i> Measurement & Survey</li>
                         <li><i class="fas fa-check-circle"></i> Location Analysis</li>
@@ -162,42 +191,51 @@
         <!-- Contact Section -->
         <section class="contact-section" id="contact">
             <div class="section-header">
-                <h2>Contact Us</h2>
-                <p>Get in touch with us for any property queries</p>
+                <span class="section-subtitle">Get In Touch</span>
+                <h2 class="section-title">Contact Us Today</h2>
+                <p class="section-description">We're here to help with all your property queries</p>
             </div>
             
             <div class="contact-grid">
                 <div class="contact-info">
                     <h3>Aditya Developers</h3>
-                    <p>We're here to help you with all your property needs. Feel free to reach out to us.</p>
+                    <p>Feel free to reach out to us anytime. We typically respond within 24 hours.</p>
                     
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
+                    <div class="info-items">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
                             <div>
-                                <h4>Phone</h4>
+                                <h4>Phone Number</h4>
                                 <p>+91 63573 08369</p>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
                             <div>
-                                <h4>Email</h4>
+                                <h4>Email Address</h4>
                                 <p>adityadevelopers.in@gmail.com</p>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
                             <div>
-                                <h4>Address</h4>
+                                <h4>Office Address</h4>
                                 <p>Sama Road, Vadodara, Gujarat</p>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
-                            <i class="fas fa-clock"></i>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
                             <div>
                                 <h4>Business Hours</h4>
                                 <p>Monday - Sunday: 10:00 AM - 7:00 PM</p>
@@ -206,20 +244,20 @@
                     </div>
                 </div>
                 
-                <div class="contact-form">
-                    <form id="contactForm">
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
                         <div class="form-group">
-                            <input type="text" placeholder="Your Name" required id="name">
+                            <input type="text" placeholder="Your Full Name" required id="name">
                             <i class="fas fa-user"></i>
                         </div>
                         
                         <div class="form-group">
-                            <input type="email" placeholder="Your Email" required id="email">
+                            <input type="email" placeholder="Your Email Address" required id="email">
                             <i class="fas fa-envelope"></i>
                         </div>
                         
                         <div class="form-group">
-                            <input type="tel" placeholder="Phone Number" required id="phone">
+                            <input type="tel" placeholder="Your Phone Number" required id="phone">
                             <i class="fas fa-phone"></i>
                         </div>
                         
@@ -240,7 +278,7 @@
                         </div>
                         
                         <button type="submit" class="submit-btn">
-                            <i class="fab fa-whatsapp"></i> Send to WhatsApp
+                            <i class="fab fa-whatsapp"></i> Send via WhatsApp
                         </button>
                     </form>
                 </div>
@@ -250,10 +288,10 @@
         <!-- Footer -->
         <footer>
             <div class="footer-content">
-                <div class="footer-logo">
+                <div class="footer-brand">
                     <i class="fas fa-building"></i>
                     <h3>Aditya Developers</h3>
-                    <p>Your Trusted Property Partner</p>
+                    <p>Your trusted partner in real estate</p>
                 </div>
                 
                 <div class="footer-links">
@@ -266,10 +304,11 @@
                     </div>
                     
                     <div class="footer-column">
-                        <h4>Services</h4>
+                        <h4>Our Services</h4>
                         <a href="#">Property Sell/Buy</a>
                         <a href="#">N.A. Work</a>
                         <a href="#">Site Visit</a>
+                        <a href="#">Legal Support</a>
                     </div>
                     
                     <div class="footer-column">
@@ -283,6 +322,11 @@
             
             <div class="footer-bottom">
                 <p>&copy; 2024 Aditya Developers. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
             </div>
         </footer>
     </div>
