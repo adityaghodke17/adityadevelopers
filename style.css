@@ -531,16 +531,17 @@ body::before {
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-.service-card.featured {
+.service-card.popular {
     border: 2px solid var(--gold);
     transform: scale(1.05);
+    z-index: 2;
 }
 
-.service-card.featured:hover {
+.service-card.popular:hover {
     transform: scale(1.05) translateY(-15px);
 }
 
-.featured-badge {
+.popular-badge {
     position: absolute;
     top: 20px;
     right: -30px;
@@ -550,6 +551,7 @@ body::before {
     transform: rotate(45deg);
     font-size: 0.9rem;
     font-weight: 600;
+    z-index: 10;
 }
 
 .service-icon-wrapper {
@@ -580,6 +582,7 @@ body::before {
 .service-card p {
     color: rgba(255,255,255,0.8);
     margin-bottom: 20px;
+    line-height: 1.6;
 }
 
 .service-list {
@@ -854,10 +857,10 @@ footer {
     transform: rotate(360deg);
 }
 
-/* Back to Top */
+/* Back to Top - FIXED POSITION */
 .back-to-top {
     position: fixed;
-    bottom: 100px;
+    bottom: 110px;  /* WhatsApp button ke upar */
     right: 30px;
     width: 50px;
     height: 50px;
@@ -870,13 +873,14 @@ footer {
     text-decoration: none;
     opacity: 0;
     transition: var(--transition);
-    z-index: 99;
+    z-index: 98;  /* WhatsApp button se neeche */
     box-shadow: 0 5px 20px rgba(26,77,46,0.3);
+    pointer-events: none;  /* Jab visible nahi hai to click nahi hoga */
 }
 
 .back-to-top.visible {
     opacity: 1;
-    bottom: 30px;
+    pointer-events: auto;  /* Visible hai to click hoga */
 }
 
 .back-to-top:hover {
@@ -885,7 +889,7 @@ footer {
     background: linear-gradient(135deg, var(--secondary), var(--primary));
 }
 
-/* Floating WhatsApp */
+/* Floating WhatsApp - FIXED POSITION */
 .floating-whatsapp {
     position: fixed;
     bottom: 30px;
@@ -900,7 +904,7 @@ footer {
     color: white;
     font-size: 2.2rem;
     box-shadow: 0 5px 20px rgba(37,211,102,0.4);
-    z-index: 99;
+    z-index: 99;  /* Back to top se upar */
     transition: var(--transition);
     animation: pulse 2s infinite;
 }
@@ -1019,6 +1023,14 @@ footer {
         grid-template-columns: 1fr;
     }
     
+    .service-card.popular {
+        transform: scale(1);
+    }
+    
+    .service-card.popular:hover {
+        transform: translateY(-15px);
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
     }
@@ -1046,6 +1058,22 @@ footer {
     .contact-section {
         padding: 30px;
     }
+    
+    /* Mobile mein buttons ka spacing */
+    .back-to-top {
+        bottom: 100px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .floating-whatsapp {
+        bottom: 20px;
+        right: 20px;
+        width: 55px;
+        height: 55px;
+        font-size: 1.8rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1056,5 +1084,9 @@ footer {
     
     .stat-number {
         font-size: 2.2rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
     }
 }
